@@ -19,6 +19,10 @@ const csvTimeCodeKey = 'Timecode';
 const addTime = '00:00:02';
 const ms = ',000';
 
+let adobeStartSequence = '1' + newline;
+    adobeStartSequence += '00:00:00,000 --> 00:00:00,100' + newline;
+    adobeStartSequence += 'Start Sequence needed for Adobe' + newline + newline;
+
 let myFiles = [];
 
 let start = new Date().getTime();
@@ -38,11 +42,10 @@ if(myFiles.length == 0){
  // Converts all csv files to srt files
 function startConverting(myFiles){
   for (let i = 0; i < myFiles.length; i++) {
-    let newCsv = readCsvFile(myFiles[i]);
+    let newCsv  = readCsvFile(myFiles[i]);
     let sortCsv = sortByKey(newCsv, csvTimeCodeKey);
-    let newSrt = createSrtRows(sortCsv);
+    let newSrt  = createSrtRows(sortCsv);
     let newSrtFileName = myFiles[i].replace(".csv", ".srt");
-    
     writeSrtFile(newSrt, newSrtFileName);
     moveFile(myFiles[i]);
   }
@@ -96,17 +99,17 @@ function readCsvFile(csvFile) {
 
 // Convert csv array to subtitle sequences (srt standard)
 function createSrtRows(csvArray){
-  let srtSequence = '';
+  let srtSequence = adobeStartSequence;
 
   for (let i = 0; i < csvArray.length; i++) {
     let endTimecode = tc.addTimes(csvArray[i].Timecode, addTime);
     let srt = {};
-    srt.nr = (i + 1) + newline;
-    srt.timecode = csvArray[i].Timecode + ms + ' --> ' + endTimecode + ms + newline;
-    srt.caption = (i + 1) +' : '+ csvArray[i].Note + newline;
-    srt.newline = newline;
+    srt.nr        = (i + 2) + newline;
+    srt.timecode  = csvArray[i].Timecode + ms + ' --> ' + endTimecode + ms + newline;
+    srt.caption   = (i + 2) + ' : ' + csvArray[i].Note + newline;
+    srt.newline   = newline;
     
-    srtSequence += (srt.nr + srt.timecode + srt.text + srt.newline);
+    srtSequence += (srt.nr + srt.timecode + srt.caption + srt.newline);
   }
   return srtSequence;
 }
