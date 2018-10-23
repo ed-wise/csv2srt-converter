@@ -24,10 +24,15 @@ node converter.js
 ## 2. Windows executable
 _Npm package [pkg](https://www.npmjs.com/package/pkg) is used to package this Node.js project into an executable that can be run even on devices without Node.js installed._
 
-### 2.1 Latest windows build
+### 2.1 Create a new build
+```
+pkg convert.js
+```
+
+### 2.2 Latest build as zip file
 - The latest build can be found as an .zip file in de folder  ./latest-build/csvconverter.zip
 
-### 2.2 Installing and running the latest build
+### 2.3 Installing and running the latest build
 1. Unzip the file to a folder
 2. Place your vimeo csv files in de folder ./csv
 3. Start the .exe file
